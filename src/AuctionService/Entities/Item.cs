@@ -1,5 +1,8 @@
-﻿namespace AuctionService.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace AuctionService.Entities;
+
+[Table("Items")]
 public class Item
 {
     public Guid Id { get; set; }
@@ -9,6 +12,6 @@ public class Item
     public string Color { get; set; } = string.Empty;
     public int Milage { get; set; }
     public string? ImageUrl { get; set; }
-    public Auction? Auction { get; set; } 
+    public Auction Auction { get; set; } = null!;
     public Guid AuctionId { get; set; }
 }
