@@ -79,4 +79,25 @@ public class AuctionsController(AuctionDbContext context, IMapper mapper) : Cont
             ? Ok()
             : BadRequest("Problem saving changes.");
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteAuction(Guid id)
+    {
+        var auction = await context.Auctions
+            .Include(a => a.Item)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (auction is null)
+        {
+            return NotFound();
+        }
+
+        context.Auctions.Remove(auction);
+
+        var result = await context.SaveChangesAsync() > 0;
+
+        return result
+            ? Ok()
+            : BadRequest("Problem deleting auction.");
+    }
 }
