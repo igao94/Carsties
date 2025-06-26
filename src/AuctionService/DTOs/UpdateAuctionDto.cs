@@ -1,21 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AuctionService.DTOs;
+﻿namespace AuctionService.DTOs;
 
 public class UpdateAuctionDto
 {
-    [Required]
     public string Make { get; set; } = string.Empty;
-
-    [Required]
     public string Model { get; set; } = string.Empty;
-
-    [Required]
-    public int Year { get; set; }
-
-    [Required]
+    public int? Year { get; set; }
     public string Color { get; set; } = string.Empty;
-
-    [Required]
-    public int Mileage { get; set; }
+    public int? Mileage { get; set; }
 }
