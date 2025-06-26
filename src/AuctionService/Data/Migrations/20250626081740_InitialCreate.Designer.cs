@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuctionService.Data.Migrations
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20250626075123_InitialCreate")]
+    [Migration("20250626081740_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -115,7 +115,8 @@ namespace AuctionService.Data.Migrations
 
             modelBuilder.Entity("AuctionService.Entities.Auction", b =>
                 {
-                    b.Navigation("Item");
+                    b.Navigation("Item")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

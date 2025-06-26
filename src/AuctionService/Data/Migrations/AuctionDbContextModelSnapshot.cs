@@ -112,7 +112,8 @@ namespace AuctionService.Data.Migrations
 
             modelBuilder.Entity("AuctionService.Entities.Auction", b =>
                 {
-                    b.Navigation("Item");
+                    b.Navigation("Item")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
