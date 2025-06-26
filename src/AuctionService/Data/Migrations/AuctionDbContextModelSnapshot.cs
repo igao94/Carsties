@@ -74,6 +74,7 @@ namespace AuctionService.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Make")

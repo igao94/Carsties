@@ -41,7 +41,7 @@ namespace AuctionService.Data.Migrations
                     Year = table.Column<int>(type: "integer", nullable: false),
                     Color = table.Column<string>(type: "text", nullable: false),
                     Mileage = table.Column<int>(type: "integer", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false),
                     AuctionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
