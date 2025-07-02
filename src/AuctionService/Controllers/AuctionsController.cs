@@ -108,6 +108,8 @@ public class AuctionsController(AuctionDbContext context,
 
         context.Auctions.Remove(auction);
 
+        await publishEndpoint.Publish<AuctionDeleted>(new { Id = auction.Id.ToString() });
+
         var result = await context.SaveChangesAsync() > 0;
 
         return result
