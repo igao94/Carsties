@@ -33,6 +33,11 @@ internal static class HostingExtensions
             .AddAspNetIdentity<ApplicationUser>()
             .AddLicenseSummary();
 
+        builder.Services.ConfigureApplicationCookie(opt =>
+        {
+            opt.Cookie.SameSite = SameSiteMode.Lax;
+        });
+
         builder.Services.AddAuthentication();
 
         return builder.Build();
