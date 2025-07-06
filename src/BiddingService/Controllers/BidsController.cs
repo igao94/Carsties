@@ -40,7 +40,7 @@ public class BidsController : ControllerBase
         {
             var highBid = await DB.Find<Bid>()
                 .Match(b => b.AuctionId == auction.ID)
-                .Sort(b => b.Descending(x => x.Amount))
+                .Sort(x => x.Descending(b => b.Amount))
                 .ExecuteFirstAsync();
 
             if (highBid is not null && amount > highBid.Amount || highBid is null)
@@ -59,5 +59,16 @@ public class BidsController : ControllerBase
         await DB.SaveAsync(bid);
 
         return Ok(bid);
+    }
+
+    [HttpGet("{auctionId}")]
+    public async Task<ActionResult<List<Bid>>> GetBidsForAuction(string auctionId)
+    {
+        var bids = await DB.Find<Bid>()
+            .Match(b => b.AuctionId == auctionId)
+            .Sort(x => x.Descending(b => b.BidTime))
+            .ExecuteAsync();
+
+        return bids;
     }
 }
