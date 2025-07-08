@@ -8,7 +8,7 @@ public class GrpcAuctionClient(ILogger<GrpcAuctionClient> logger, IConfiguration
 {
     public Auction GetAuction(string id)
     {
-        logger.LogInformation("Calling Grpc service.");
+        logger.LogInformation("==> Calling Grpc service.");
 
         var channel = GrpcChannel.ForAddress(config["GrpcAuction"]!);
 
