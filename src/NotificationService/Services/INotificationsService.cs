@@ -1,10 +1,6 @@
-﻿using Contracts;
-
-namespace NotificationService.Services;
+﻿namespace NotificationService.Services;
 
 public interface INotificationsService
 {
-    Task NotifyAuctionCreatedAsync(AuctionCreated message);
-    Task NotifyAuctionFinishedAsync(AuctionFinished message);
-    Task NotifyBidPlacedAsync(BidPlaced message);
+    Task NotifyAsync(string eventName, object message);
 }

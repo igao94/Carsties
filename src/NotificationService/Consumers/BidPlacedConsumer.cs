@@ -10,6 +10,6 @@ public class BidPlacedConsumer(INotificationsService notificationService) : ICon
     {
         Console.WriteLine("==> Bid placed message received.");
 
-        await notificationService.NotifyBidPlacedAsync(context.Message);
+        await notificationService.NotifyAsync("BidPlaced", context.Message);
     }
 }

@@ -10,6 +10,6 @@ public class AuctionCreatedConsumer(INotificationsService notificationService) :
     {
         Console.WriteLine("==> Auction created message received.");
 
-        await notificationService.NotifyAuctionCreatedAsync(context.Message);
+        await notificationService.NotifyAsync("AuctionCreated", context.Message);
     }
 }

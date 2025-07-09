@@ -10,6 +10,6 @@ public class AuctionFinishedConsumer(INotificationsService notificationService) 
     {
         Console.WriteLine("==> Auction finished message received.");
 
-        await notificationService.NotifyAuctionFinishedAsync(context.Message);
+        await notificationService.NotifyAsync("AuctionFinished", context.Message);
     }
 }
