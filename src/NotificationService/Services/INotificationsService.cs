@@ -2,5 +2,5 @@
 
 public interface INotificationsService
 {
-    Task NotifyAsync(string eventName, object message);
+    Task NotifyAsync<T>(string eventName, T message);
 }
