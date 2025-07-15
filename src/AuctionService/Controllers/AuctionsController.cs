@@ -52,7 +52,7 @@ public class AuctionsController(IAuctionRepository auctionRepository,
 
         if (!result)
         {
-            BadRequest("Could not save changes to DB.");
+            return BadRequest("Could not save changes to DB.");
         }
 
         return CreatedAtAction(nameof(GetAuctionById), new { auction.Id }, newAuction);

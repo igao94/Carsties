@@ -1,10 +1,13 @@
 ﻿using AuctionService.Controllers;
 using AuctionService.Data;
 using AuctionService.DTOs;
+using AuctionService.Entities;
 using AuctionService.RequestHelpers;
+using AuctionService.UnitTests.Utils;
 using AutoFixture;
 using AutoMapper;
 using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -33,7 +36,16 @@ public class AuctionControllerTests
 
         _mapper = new Mapper(mockMapper);
 
-        _controller = new AuctionsController(_auctionRepo.Object, _publishEndpoint.Object, _mapper);
+        _controller = new AuctionsController(_auctionRepo.Object, _publishEndpoint.Object, _mapper)
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = Helpers.GetClaimsPrincipal()
+                }
+            }
+        };
     }
 
     [Fact]
@@ -100,5 +112,47 @@ public class AuctionControllerTests
 
         // assert
         Assert.IsType<NotFoundResult>(result.Result);
+    }
+    
+    
+    [Fact]
+    public async Task CreateAuction_WithValidCreateAuctionDto_ReturnsCreatedAtAction()
+    {
+        // arrange
+        var auction = _fixture.Create<CreateAuctionDto>();
+
+        _auctionRepo.Setup(repo => repo.AddAuction(It.IsAny<Auction>()));
+
+        _auctionRepo.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(true);
+
+        // act
+        var result = await _controller.CreateAuction(auction);
+
+        var createdAtResult = result.Result as CreatedAtActionResult;
+
+        // assert
+        Assert.NotNull(createdAtResult);
+
+        Assert.Equal("GetAuctionById", createdAtResult.ActionName);
+
+        Assert.IsType<AuctionDto>(createdAtResult.Value);
+    }
+
+
+    [Fact]
+    public async Task CreateAuction_FailedSave_Returns400BadRequest()
+    {
+        // arrange
+        var auction = _fixture.Create<CreateAuctionDto>();
+
+        _auctionRepo.Setup(repo => repo.AddAuction(It.IsAny<Auction>()));
+
+        _auctionRepo.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(false);
+
+        // act
+        var result = await _controller.CreateAuction(auction);
+
+        // assert
+        Assert.IsType<BadRequestObjectResult>(result.Result);
     }
 }
