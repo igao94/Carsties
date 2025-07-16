@@ -259,4 +259,17 @@ public class AuctionControllerTests
         // assert 
         Assert.IsType<OkResult>(result);
     }
+
+    [Fact]
+    public async Task DeleteAuction_WithInvalidGuid_Returns404Response()
+    {
+        // arrange
+        _auctionRepo.Setup(repo => repo.GetAuctionEntityAsync(It.IsAny<Guid>())).ReturnsAsync(value: null);
+
+        // act
+        var result = await _controller.DeleteAuction(Guid.NewGuid());
+
+        // assert
+        Assert.IsType<NotFoundResult>(result);
+    }
 }
