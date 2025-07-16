@@ -240,4 +240,23 @@ public class AuctionControllerTests
         // assert
         Assert.IsType<BadRequestObjectResult>(result);
     }
+
+    [Fact]
+    public async Task DeleteAuction_WithValidUser_ReturnsOkResponse()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(a => a.Item).Create();
+
+        auction.Seller = "test";
+
+        _auctionRepo.Setup(repo => repo.GetAuctionEntityAsync(It.IsAny<Guid>())).ReturnsAsync(auction);
+
+        _auctionRepo.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(true);
+
+        // act
+        var result = await _controller.DeleteAuction(auction.Id);
+
+        // assert 
+        Assert.IsType<OkResult>(result);
+    }
 }
