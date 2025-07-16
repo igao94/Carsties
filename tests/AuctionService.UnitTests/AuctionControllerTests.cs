@@ -272,4 +272,21 @@ public class AuctionControllerTests
         // assert
         Assert.IsType<NotFoundResult>(result);
     }
+
+    [Fact]
+    public async Task DeleteAuction_WithInvalidUser_Returns403Response()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(a => a.Item).Create();
+
+        auction.Seller = "non-test";
+
+        _auctionRepo.Setup(repo => repo.GetAuctionEntityAsync(It.IsAny<Guid>())).ReturnsAsync(auction);
+
+        // act
+        var result = await _controller.DeleteAuction(auction.Id);
+
+        // assert
+        Assert.IsType<ForbidResult>(result);
+    }
 }
